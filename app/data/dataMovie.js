@@ -1,5 +1,5 @@
 // URL où se trouve le répertoire "server" sur mmi.unilim.fr
-let HOST_URL = "..";//"http://mmi.unilim.fr/~????"; // CHANGE THIS TO MATCH YOUR CONFIG
+let HOST_URL = "https://mmi.unilim.fr/~lavillonniere7/";//"https://mmi.unilim.fr/~lavillonniere7/"; // CHANGE THIS TO MATCH YOUR CONFIG
 
 let DataMovie = {};
 
@@ -13,6 +13,12 @@ DataMovie.requestMovies = async function(){
     // Ces données (data) sont automatiquement converties en objet JavaScript.
     let data = await answer.json();
     // Enfin, on retourne ces données.
+    return [
+        { title: "Inception", image: "images/inception.jpg" },
+        { title: "Interstellar", image: "images/interstellar.jpg" },
+        { title: "The Dark Knight", image: "images/dark-knight.jpg" },
+        { title: "Dunkerque", image: "images/dunkerque.jpg" }
+    ];
     return data;
 }
 
