@@ -1,0 +1,17 @@
+let templateFile = await fetch("./component/iteration1/Movie/template.html");
+let template = await templateFile.text();
+
+let Movie = {};
+
+Movie.format = function(films) {
+  let html = "";
+  for (let film of films) {
+    let carte = template;
+    carte = carte.replace("{{name}}", film.name);
+    carte = carte.replace("{{image}}", "https://mmi.unilim.fr/~lavillonniere7/SAE2.03-lavillonniere/server/images/" + film.image);
+    html += carte;
+  }
+  return html;
+};
+
+export { Movie };

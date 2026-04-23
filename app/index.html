@@ -1,52 +1,44 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <title>SAE2.03 APP</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./css/base.css" />
-  </head>
 
-  <body>
-    <header id="header"></header>
+<head>
+  <title>SAE2.03 APP</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./css/base.css" />
+</head>
 
-    <section id="content"></section>
+<body>
+  <header id="header"></header>
 
-    <script type="module">
-      import { NavBar } from "./component/NavBar/script.js";
+  <section id="content"></section>
 
-      // Controleur
-      // Rappel, écrire window.C plutôt que let C est nécessaire pour tester depuis la console du navigateur
-      // Une fois l'application terminée, on pourrait remettre let C.
-      window.C = {};
+  <script type="module">
+    import { NavBar } from "./component/NavBar/script.js";
+    import { DataMovie } from "./data/dataMovie.js";
+    import { Movie } from "./component/iteration1/Movie/script.js";
 
-      C.handlerAbout = function () {
-        alert(
-          "Ceci est une base de projet pour la SAE2.03 édition 2025. Bonne chance !"
-        );
-      };
+    window.C = {};
+    window.V = {};
 
-      C.start = function () {
-        V.renderNavBar("C.handlerAbout()");
-      };
+    C.handlerAbout = function () {
+      alert("Ceci est une base de projet pour la SAE2.03 édition 2025. Bonne chance !");
+    };
 
-      // Vue (contient tout ce qui est relatif à l'affichage)
-      window.V = {};
+    V.renderNavBar = function (hAbout) {
+      document.querySelector("#header").innerHTML = NavBar.format(hAbout);
+    };
 
-      /**
-       * V.renderNavBar
-       *
-       * Cette fonction est responsable de l'affichage de la barre de navigation (NavBar).
-       * Elle sélectionne l'élément HTML avec l'ID "header" et y insère le contenu
-       * formaté par le composant NavBar.
-       */
-      V.renderNavBar = function (hAbout) {
-        let header = document.querySelector("#header");
-        header.innerHTML = NavBar.format(hAbout);
-      };
+    C.start = async function () {
+      V.renderNavBar("C.handlerAbout()");
+      let films = await DataMovie.requestMovies();
+      document.querySelector("#content").innerHTML = Movie.format(films);
+    };
 
-      C.start(); // Démarre l'application
-    </script>
-  </body>
+    C.start();
+
+  </script>
+</body>
+
 </html>
 <script type="module"></script>
