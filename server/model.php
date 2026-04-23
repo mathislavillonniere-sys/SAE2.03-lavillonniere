@@ -32,3 +32,29 @@ function getAllMovies(){
     $res = $stmt->fetchAll(PDO::FETCH_OBJ);
     return $res; // Retourne les résultats
 }
+function insertMovie($name, $director, $year, $length, $description, $id_category, $image, $trailer, $min_age){
+    try {
+        $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
+        $cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $sql = "INSERT INTO SAE203_Movie
+                (name, director, year, length, description, id_category, image, trailer, min_age)
+                VALUES (:name, :director, :year, :length, :description, :id_category, :image, :trailer, :min_age)";
+
+        $stmt = $cnx->prepare($sql);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':director', $director);
+        $stmt->bindParam(':year', $year);
+        $stmt->bindParam(':length', $length);
+        $stmt->bindParam(':description', $description);
+        $stmt->bindParam(':id_category', $id_category);
+        $stmt->bindParam(':image', $image);
+        $stmt->bindParam(':trailer', $trailer);
+        $stmt->bindParam(':min_age', $min_age);
+
+        $stmt->execute();
+        return $stmt->rowCount();
+    } catch (PDOException $e) {
+        return 'Erreur : ' . $e->getMessage();
+    }
+}

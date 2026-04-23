@@ -1,8 +1,8 @@
 
 // URL où se trouve le répertoire "server" sur mmi.unilim.fr
-let HOST_URL = "..";//"http://mmi.unilim.fr/~????"; // CHANGE THIS TO MATCH YOUR CONFIG
+let HOST_URL = "https://mmi.unilim.fr/~lavillonniere7/SAE2.03-lavillonniere/";//"http://mmi.unilim.fr/~????"; // CHANGE THIS TO MATCH YOUR CONFIG
 
-let DataMenu = {};
+let DataMovie = {};
 
  /**
      * Fetches data from the server based on the specified day.
@@ -14,7 +14,7 @@ let DataMenu = {};
      * Elle prend en paramètre un jour (lundi mardi...) de la semaine et 
      * renvoie les données contenues dans la réponse du serveur (data).
      */
-DataMenu.request = async function(day){
+DataMovie.request = async function(day){
     // fetch permet d'envoyer une requête HTTP à l'URL spécifiée. 
     // L'URL est construite en concaténant HOST_URL à "/server/script.php?direction=" et la valeur de la variable dir. 
     // L'URL finale dépend de la valeur de HOST_URL et de dir.
@@ -27,7 +27,7 @@ DataMenu.request = async function(day){
     return data;
 }
 
-/** DataMenu.update
+/** DataMovie.update
  * 
  * Prend en paramètre un objet FormData (données de formulaire) à envoyer au serveur.
  * Ces données sont incluses dans une requête HTTP en méthode POST.
@@ -40,7 +40,7 @@ DataMenu.request = async function(day){
  * @param {*} fdata un objet FormData contenant les données du formulaire à envoyer au serveur.
  * @returns la réponse du serveur.
  */
-DataMenu.update = async function (fdata) {
+DataMovie.update = async function (fdata) {
     // fetch possède un deuxième paramètre (optionnel) qui est un objet de configuration de la requête HTTP:
     //  - method : la méthode HTTP à utiliser (GET, POST...)
     //  - body : les données à envoyer au serveur (sous forme d'objet FormData ou bien d'une chaîne de caractères, par exempe JSON)
@@ -53,7 +53,21 @@ DataMenu.update = async function (fdata) {
     return data;
 }
 
-export {DataMenu};
+DataMovie.add = async function(formData) {
+  const config = {
+    method: "POST",
+    body: formData
+  };
+
+  const resp = await fetch(HOST_URL + "/server/script.php?todo=addMovie", config);
+  // gestion d'erreur réseau
+  if (!resp.ok) {
+    return { success: false, message: "Erreur réseau : " + resp.statusText };
+  }
+  const data = await resp.json();
+  return data;
+};
+export {DataMovie};
 
 
 
