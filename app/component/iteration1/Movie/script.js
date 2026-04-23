@@ -4,6 +4,11 @@ let template = await templateFile.text();
 let Movie = {};
 
 Movie.format = function(films) {
+
+  if (films.length === 0) {
+    return "<p>Aucun film disponible pour le moment.</p>";
+  }
+  
   let html = "";
   for (let film of films) {
     let carte = template;

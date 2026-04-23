@@ -1,4 +1,6 @@
 /* Le conteneur qui recevra le HTML */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 #content {
   display: flex;
   flex-wrap: wrap;
@@ -20,5 +22,6 @@
 .movie__card h2 {
   font-size: 1rem;
   text-align: center;
+  font-family: "roboto", sans-serif;
   margin-top: 0.5rem;
 }
