@@ -58,3 +58,12 @@ function insertMovie($name, $director, $year, $length, $description, $id_categor
         return 'Erreur : ' . $e->getMessage();
     }
 }
+
+function getMovieDetail($id){
+    $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
+    $sql = "SELECT * FROM SAE203_Movie WHERE id = :id";
+    $stmt = $cnx->prepare($sql);
+    $stmt->bindParam(':id', $id);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_OBJ);
+}

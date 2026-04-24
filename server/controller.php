@@ -49,3 +49,9 @@ function readMoviesController(){
         return "Erreur : " . $res;
     }
 }
+
+function readMovieDetailController(){
+    $id = $_GET['id'] ?? null;
+    if (!$id) return false;
+    return getMovieDetail($id);
+}

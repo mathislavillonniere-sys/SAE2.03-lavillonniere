@@ -1,0 +1,27 @@
+/* Le conteneur qui recevra le HTML */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+#content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.movie__card {
+  width: 200px;
+  cursor: pointer;
+}
+
+.movie__card img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.movie__card h2 {
+  font-size: 1rem;
+  text-align: center;
+  font-family: "roboto", sans-serif;
+  margin-top: 0.5rem;
+}
