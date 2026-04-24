@@ -67,3 +67,10 @@ function getMovieDetail($id){
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_OBJ);
 }
+function getAllCategories(){
+    $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
+    $sql = "SELECT * FROM SAE203_Categorie ORDER BY name";
+    $stmt = $cnx->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+}

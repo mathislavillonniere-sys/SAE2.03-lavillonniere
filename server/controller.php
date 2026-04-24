@@ -55,3 +55,7 @@ function readMovieDetailController(){
     if (!$id) return false;
     return getMovieDetail($id);
 }
+
+function readCategoriesController(){
+    return getAllCategories();
+}

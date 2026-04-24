@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="./css/base.css" />
   <link rel="stylesheet" href="./component/iteration1/Movie/style.css" />
   <link rel="stylesheet" href="./component/iteration3/MovieDetail/style.css" />
+  <link rel="stylesheet" href="./component/iteration4/MovieCategory/style.css" />
 
 </head>
 
@@ -21,6 +22,8 @@
     import { DataMovie } from "./data/dataMovie.js";
     import { Movie } from "./component/iteration1/Movie/script.js";
     import { MovieDetail } from "./component/iteration3/MovieDetail/script.js";
+    import { MovieCategory } from "./component/iteration4/MovieCategory/script.js";
+
 
     window.C = {};
     window.V = {};
@@ -34,15 +37,21 @@
     };
 
     C.start = async function () {
-      V.renderNavBar("C.handlerAbout()");
-      let films = await DataMovie.requestMovies();
-      document.querySelector("#content").innerHTML = Movie.format(films);
-    };
+    let categories = await DataMovie.requestCategories();
+    V.renderNavBar("C.handlerAbout()", "C.start()", categories);
+    let films = await DataMovie.requestMovies();
+    document.querySelector("#content").innerHTML = Movie.format(films);
+};
 
     C.handlerDetail = async function (id) {
       let film = await DataMovie.requestMovieDetails(id);
       document.querySelector("#content").innerHTML = MovieDetail.format(film);
     };
+    C.handlerCategory = async function(categoryName) {
+    let films = await DataMovie.requestMovies();
+    let filtered = films.filter(f => f.category_name === categoryName);
+    document.querySelector("#content").innerHTML = Movie.format(filtered);
+};
 
     C.handlerHome = function () {
       C.start();
