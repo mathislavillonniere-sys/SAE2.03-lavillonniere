@@ -32,16 +32,17 @@
       alert("Ceci est une base de projet pour la SAE2.03 édition 2025. Bonne chance !");
     };
 
-    V.renderNavBar = function (hAbout) {
-      document.querySelector("#header").innerHTML = NavBar.format(hAbout);
+    V.renderNavBar = function (hAbout, hHome, categories) {
+      document.querySelector("#header").innerHTML = NavBar.format(hAbout, hHome, categories);
     };
 
+
     C.start = async function () {
-    let categories = await DataMovie.requestCategories();
-    V.renderNavBar("C.handlerAbout()", "C.start()", categories);
-    let films = await DataMovie.requestMovies();
-    document.querySelector("#content").innerHTML = Movie.format(films);
-};
+      let categories = await DataMovie.requestCategories();
+      V.renderNavBar("C.handlerAbout()", "C.start()", categories);
+      let films = await DataMovie.requestMovies();
+      document.querySelector("#content").innerHTML = Movie.format(films);
+    };
 
     C.handlerDetail = async function (id) {
       let film = await DataMovie.requestMovieDetails(id);
@@ -50,7 +51,11 @@
     C.handlerCategory = async function(categoryName) {
     let films = await DataMovie.requestMovies();
     let filtered = films.filter(f => f.category_name === categoryName);
-    document.querySelector("#content").innerHTML = Movie.format(filtered);
+    if (filtered.length === 0) {
+        document.querySelector("#content").innerHTML = "<p>Aucun film dans cette catégorie.</p>";
+    } else {
+        document.querySelector("#content").innerHTML = Movie.format(filtered);
+    }
 };
 
     C.handlerHome = function () {

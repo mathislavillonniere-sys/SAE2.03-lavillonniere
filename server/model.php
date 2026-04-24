@@ -20,17 +20,13 @@ define("DBPWD", "lavillonniere7");
 
 
 function getAllMovies(){
-    // Connexion à la base de données
     $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
-    // Requête SQL pour récupérer le menu avec des paramètres
-    $sql = "select id, name, image from SAE203_Movie";
-    // Prépare la requête SQL
+    $sql = "SELECT m.id, m.name, m.image, c.name AS category_name 
+            FROM SAE203_Movie m 
+            JOIN SAE203_Categorie c ON m.id_category = c.id";
     $stmt = $cnx->prepare($sql);
-    // Exécute la requête SQL
     $stmt->execute();
-    // Récupère les résultats de la requête sous forme d'objets
-    $res = $stmt->fetchAll(PDO::FETCH_OBJ);
-    return $res; // Retourne les résultats
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
 }
 function insertMovie($name, $director, $year, $length, $description, $id_category, $image, $trailer, $min_age){
     try {
@@ -67,6 +63,7 @@ function getMovieDetail($id){
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_OBJ);
 }
+
 function getAllCategories(){
     $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
     $sql = "SELECT * FROM SAE203_Categorie ORDER BY name";
