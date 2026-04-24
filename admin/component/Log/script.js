@@ -1,8 +1,5 @@
-
-
 let templateFile = await fetch('./component/Log/template.html');
 let template = await templateFile.text();
-
 let templateLi = "<li>[{{time}}] {{txt}}</li>";
 let templateLiLast = "<li class='last'>[{{time}}] {{txt}}<span class='clignotant'> #</span></li>";
 
