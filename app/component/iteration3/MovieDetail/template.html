@@ -1,4 +1,11 @@
-<div class="movie__card">
-    <img src="{{image}}">
-    <h2>{{name}}</h2>
+<div class="movie__detail">
+    <button onclick="C.handlerHome()">← Retour</button>
+    <img src="{{image}}" alt="{{name}}">
+    <h1>{{name}}</h1>
+    <p>{{description}}</p>
+    <p>Réalisateur : {{director}}</p>
+    <p>Année : {{year}}</p>
+    <p>Durée : {{length}} min</p>
+    <p>Âge minimum : {{min_age}} ans</p>
+    <iframe src="{{trailer}}" allowfullscreen></iframe>
 </div>

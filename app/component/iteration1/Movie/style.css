@@ -1,13 +1,20 @@
 /* Le conteneur qui recevra le HTML */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
+body {
+  width: 100%;
+  margin: 0;
+}
+
 #content {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
   padding: 1rem;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
 }
-
 .movie__card {
   width: 200px;
   cursor: pointer;
