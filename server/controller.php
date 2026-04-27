@@ -35,7 +35,7 @@ function readMoviesController(){
     $year = !empty($_POST['annee']) ? (int)$_POST['annee'] : null;
     $length = !empty($_POST['duree']) ? (int)$_POST['duree'] : null;
     $description = $_POST['description'] ?? null;
-    $id_category = $_POST['category'] ?? null;
+    $categoryName = $_POST['category'] ?? null;
     $image = $_POST['poster'] ?? null;
     $trailer = $_POST['trailer'] ?? null;
     $min_age = !empty($_POST['age']) ? (int)$_POST['age'] : null;
@@ -43,6 +43,9 @@ function readMoviesController(){
     if (!$name || !$director || !$year) {
         return "Champs obligatoires manquants";
     }
+
+    $id_category = getOrCreateCategory($categoryName);
+
 
     $res = insertMovie($name, $director, $year, $length, $description, $id_category, $image, $trailer, $min_age);
     if ($res === 1) {

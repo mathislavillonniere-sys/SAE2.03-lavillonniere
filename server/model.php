@@ -72,3 +72,28 @@ function getAllCategories(){
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
 }
+
+function getOrCreateCategory($categoryName){
+    $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
+    $cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Cherche si la catégorie existe déjà
+    $sql = "SELECT id FROM SAE203_Categorie WHERE name = :name";
+    $stmt = $cnx->prepare($sql);
+    $stmt->bindParam(':name', $categoryName);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_OBJ);
+
+    if ($result) {
+        // La catégorie existe, on retourne son id
+        return $result->id;
+    } else {
+        // La catégorie n'existe pas, on la crée
+        $sql = "INSERT INTO SAE203_Categorie (name) VALUES (:name)";
+        $stmt = $cnx->prepare($sql);
+        $stmt->bindParam(':name', $categoryName);
+        $stmt->execute();
+        // Retourne l'id de la nouvelle catégorie
+        return $cnx->lastInsertId();
+    }
+}

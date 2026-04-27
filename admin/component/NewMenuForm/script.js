@@ -1,5 +1,3 @@
-
-
 let templateFile = await fetch('./component/NewMenuForm/template.html');
 let template = await templateFile.text();
 
