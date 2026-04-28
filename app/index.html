@@ -1,71 +1,78 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
+  <head>
+    <title>SAE2.03 APP</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./component/iteration1/Movie/style.css" />
+    <link
+      rel="stylesheet"
+      href="./component/iteration3/MovieDetail/style.css"
+    />
+    <link
+      rel="stylesheet"
+      href="./component/iteration4/MovieCategory/style.css"
+    />
+  </head>
 
-<head>
-  <title>SAE2.03 APP</title>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./css/base.css" />
-  <link rel="stylesheet" href="./component/iteration1/Movie/style.css" />
-  <link rel="stylesheet" href="./component/iteration3/MovieDetail/style.css" />
-  <link rel="stylesheet" href="./component/iteration4/MovieCategory/style.css" />
+  <body>
+    <header id="header"></header>
 
-</head>
+    <section id="content"></section>
 
-<body>
-  <header id="header"></header>
+    <script type="module">
+      import { NavBar } from "./component/NavBar/script.js";
+      import { DataMovie } from "./data/dataMovie.js";
+      import { Movie } from "./component/iteration1/Movie/script.js";
+      import { MovieDetail } from "./component/iteration3/MovieDetail/script.js";
+      import { MovieCategory } from "./component/iteration4/MovieCategory/script.js";
 
-  <section id="content"></section>
+      window.C = {};
+      window.V = {};
 
-  <script type="module">
-    import { NavBar } from "./component/NavBar/script.js";
-    import { DataMovie } from "./data/dataMovie.js";
-    import { Movie } from "./component/iteration1/Movie/script.js";
-    import { MovieDetail } from "./component/iteration3/MovieDetail/script.js";
-    import { MovieCategory } from "./component/iteration4/MovieCategory/script.js";
+      C.handlerAbout = function () {
+        alert(
+          "Ceci est une base de projet pour la SAE2.03 édition 2025. Bonne chance !",
+        );
+      };
 
+      V.renderNavBar = function (hAbout, hHome, categories) {
+        document.querySelector("#header").innerHTML = NavBar.format(
+          hAbout,
+          hHome,
+          categories,
+        );
+      };
 
-    window.C = {};
-    window.V = {};
+      C.start = async function () {
+        let categories = await DataMovie.requestCategories();
+        V.renderNavBar("C.handlerAbout()", "C.start()", categories);
+        let films = await DataMovie.requestMovies();
+        document.querySelector("#content").innerHTML = Movie.format(films);
+      };
 
-    C.handlerAbout = function () {
-      alert("Ceci est une base de projet pour la SAE2.03 édition 2025. Bonne chance !");
-    };
+      C.handlerDetail = async function (id) {
+        let film = await DataMovie.requestMovieDetails(id);
+        document.querySelector("#content").innerHTML = MovieDetail.format(film);
+      };
+      C.handlerCategory = async function (categoryName) {
+        let films = await DataMovie.requestMovies();
+        let filtered = films.filter((f) => f.category_name === categoryName);
+        if (filtered.length === 0) {
+          document.querySelector("#content").innerHTML =
+            "<p>Aucun film dans cette catégorie.</p>";
+        } else {
+          document.querySelector("#content").innerHTML = Movie.format(filtered);
+        }
+      };
 
-    V.renderNavBar = function (hAbout, hHome, categories) {
-      document.querySelector("#header").innerHTML = NavBar.format(hAbout, hHome, categories);
-    };
+      C.handlerHome = function () {
+        C.start();
+      };
 
-
-    C.start = async function () {
-      let categories = await DataMovie.requestCategories();
-      V.renderNavBar("C.handlerAbout()", "C.start()", categories);
-      let films = await DataMovie.requestMovies();
-      document.querySelector("#content").innerHTML = Movie.format(films);
-    };
-
-    C.handlerDetail = async function (id) {
-      let film = await DataMovie.requestMovieDetails(id);
-      document.querySelector("#content").innerHTML = MovieDetail.format(film);
-    };
-    C.handlerCategory = async function(categoryName) {
-    let films = await DataMovie.requestMovies();
-    let filtered = films.filter(f => f.category_name === categoryName);
-    if (filtered.length === 0) {
-        document.querySelector("#content").innerHTML = "<p>Aucun film dans cette catégorie.</p>";
-    } else {
-        document.querySelector("#content").innerHTML = Movie.format(filtered);
-    }
-};
-
-    C.handlerHome = function () {
       C.start();
-    };
-
-    C.start();
-
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>
 <script type="module"></script>

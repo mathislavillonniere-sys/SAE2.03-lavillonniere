@@ -1,4 +1,3 @@
-
 <head>
   <title>Back Office</title>
   <meta charset="UTF-8">
@@ -7,6 +6,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@200&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="./css/base.css">
   <link rel="stylesheet" href="./component/NewMenuForm/style.css" />
+  <link rel="stylesheet" href="./component/ProfileForm/style.css" />
 
 </head>
 
@@ -22,28 +22,42 @@
 
     <section id="addMenu"></section>
 
+    <section id="addProfile"></section>
+
+
   </section>
 
   <script type="module">
+
     import { NewMenuForm } from './component/NewMenuForm/script.js';
     import { DataMovie } from './data/dataMovie.js';
     import { Log } from './component/Log/script.js';
+    import { ProfileForm } from "./component/ProfileForm/script.js";
+    import { DataProfile } from "./data/dataProfile.js";
 
     window.C = {};
 
 
 
     C.handlerUpdate = async function () {
-  let form = document.querySelector('.addMenu__form');
-  let fd = new FormData(form);
-  let res = await DataMovie.add(fd);
-  V.renderLog(res);
-}
+      let form = document.querySelector('.addMenu__form');
+      let fd = new FormData(form);
+      let res = await DataMovie.add(fd);
+      V.renderLog(res);
+    }
 
-C.start = function () {
-  V.renderLog("Bienvenue dans le back office");
-  V.renderMenu("C.handlerUpdate()");
-}
+    C.handlerAddProfile = async function () {
+      let form = document.querySelector('.addProfile__form');
+      let fd = new FormData(form);
+      let res = await DataProfile.add(fd);
+      V.renderLog(res);
+    };
+
+    C.start = function () {
+      V.renderLog("Bienvenue dans le back office");
+      V.renderMenu("C.handlerUpdate()");
+      V.renderProfile("C.handlerAddProfile()");
+    }
 
     window.V = {};
 
@@ -56,6 +70,11 @@ C.start = function () {
       let content = document.querySelector('#addMenu');
       content.innerHTML = NewMenuForm.format(handler);
     }
+
+    V.renderProfile = function (handler) {
+      let content = document.querySelector('#addProfile');
+      content.innerHTML = ProfileForm.format(handler);
+    };
 
     C.start();
   </script>

@@ -64,3 +64,20 @@ function readMovieDetailController(){
 function readCategoriesController(){
     return getAllCategories();
 }
+
+function addProfileController(){
+    $name = $_POST['name'] ?? null;
+    $avatar = $_POST['avatar'] ?? null;
+    $min_age = !empty($_POST['min_age']) ? (int)$_POST['min_age'] : 0;
+
+    if (!$name) {
+        return "Champs obligatoires manquants";
+    }
+
+    $res = insertProfile($name, $avatar, $min_age);
+    if ($res === 1) {
+        return "Le profil a été ajouté avec succès !";
+    } else {
+        return "Erreur : " . $res;
+    }
+}

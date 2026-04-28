@@ -1,0 +1,18 @@
+<div class="addProfile">
+  <h4 class="addProfile__title"># Ajouter un profil</h4>
+  <form class="addProfile__form">
+    <input required type="text" name="name" placeholder="Nom du profil" />
+    <input
+      type="text"
+      name="avatar"
+      placeholder="Nom du fichier avatar (ex: avatar.jpg)"
+    />
+    <input
+      required
+      type="number"
+      name="min_age"
+      placeholder="Restriction d'âge (0, 12, 16...)"
+    />
+    <input onclick="{{handler}}" type="button" value="Ajouter le profil" />
+  </form>
+</div>
