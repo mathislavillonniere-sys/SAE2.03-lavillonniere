@@ -81,3 +81,7 @@ function addProfileController(){
         return "Erreur : " . $res;
     }
 }
+
+function readProfilesController(){
+    return getAllProfiles();
+}

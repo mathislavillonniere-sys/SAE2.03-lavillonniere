@@ -19,6 +19,11 @@ define("DBNAME", "lavillonniere7");
 define("DBLOGIN", "lavillonniere7");
 define("DBPWD", "lavillonniere7");
 
+// define("HOST", "localhost");
+// define("DBNAME", "SAE203");
+// define("DBLOGIN", "Mathis");
+// define("DBPWD", "Mathis792302025.");
+
 
 function getAllMovies(){
     $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
@@ -113,4 +118,12 @@ function insertProfile($name, $avatar, $min_age){
     } catch (PDOException $e) {
         return 'Erreur : ' . $e->getMessage();
     }
+}
+
+function getAllProfiles(){
+    $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
+    $sql = "SELECT * FROM SAE203_Profile";
+    $stmt = $cnx->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
 }
