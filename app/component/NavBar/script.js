@@ -15,7 +15,17 @@ NavBar.format = function (hAbout, hHome, categories) {
     }
   }
   html = html.replace("{{categories}}", categoriesHtml);
-  html = html.replace("{{profileName}}", profileName || "Choisir un profil");
+
+  // --- GESTION DU PROFIL ---
+  if (window.activeProfile == null) {
+      // Aucun profil actif
+      html = html.replace("{{profileName}}", "Choisir un profil");
+  } else {
+      // Un profil est actif
+      let prenom = window.activeProfile.name;
+      let phraseFinale = prenom + " - Changer de profil";
+      html = html.replace("{{profileName}}", phraseFinale);
+  }
 
   return html;
 };

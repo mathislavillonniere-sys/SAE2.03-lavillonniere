@@ -13,3 +13,4 @@ MovieCategory.format = function(categoryName, films) {
 };
 
 export { MovieCategory };
+
