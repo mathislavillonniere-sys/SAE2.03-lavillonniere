@@ -62,7 +62,10 @@
         let categories = await DataMovie.requestCategories();
         window.currentCategories = categories;
         V.renderNavBar("C.handlerAbout()", "C.start()", categories);
-        let films = await DataMovie.requestMovies();
+        let films = await DataMovie.requestMovies(
+          window.activeProfile ? window.activeProfile.min_age : 99,
+        );
+
         document.querySelector("#content").innerHTML = Movie.format(films);
       };
 
@@ -72,7 +75,9 @@
       };
 
       C.handlerCategory = async function (categoryName) {
-        let films = await DataMovie.requestMovies();
+        let films = await DataMovie.requestMovies(
+          window.activeProfile ? window.activeProfile.min_age : 99,
+        );
         let filtered = films.filter((f) => f.category_name === categoryName);
         if (filtered.length === 0) {
           document.querySelector("#content").innerHTML =

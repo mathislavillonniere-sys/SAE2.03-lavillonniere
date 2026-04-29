@@ -25,13 +25,27 @@ define("DBPWD", "lavillonniere7");
 // define("DBPWD", "Mathis792302025.");
 
 
-function getAllMovies(){
+function getAllMovies($age = 0){
     $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
-    $sql = "SELECT m.id, m.name, m.image, c.name AS category_name 
-            FROM SAE203_Movie m 
-            JOIN SAE203_Categorie c ON m.id_category = c.id";
-    $stmt = $cnx->prepare($sql);
-    $stmt->execute();
+    
+    if ($age == 0) {
+        // Profil tout public : affiche tous les films
+        $sql = "SELECT m.id, m.name, m.image, c.name AS category_name 
+                FROM SAE203_Movie m 
+                JOIN SAE203_Categorie c ON m.id_category = c.id";
+        $stmt = $cnx->prepare($sql);
+        $stmt->execute();
+    } else {
+        // Profil avec restriction : affiche uniquement les films autorisés
+        $sql = "SELECT m.id, m.name, m.image, c.name AS category_name 
+                FROM SAE203_Movie m 
+                JOIN SAE203_Categorie c ON m.id_category = c.id
+                WHERE m.min_age <= :age";
+        $stmt = $cnx->prepare($sql);
+        $stmt->bindParam(':age', $age, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+    
     return $stmt->fetchAll(PDO::FETCH_OBJ);
 }
 function insertMovie($name, $director, $year, $length, $description, $id_category, $image, $trailer, $min_age){
