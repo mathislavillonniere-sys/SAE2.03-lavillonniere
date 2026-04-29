@@ -7,7 +7,7 @@ Profile.format = function(profiles) {
     if (profiles.length === 0) {
         return "<p>Aucun profil disponible.</p>";
     }
-    let html = "";
+    let html = "<div class='profile__list'>";
     for (let profile of profiles) {
         let carte = template;
         carte = carte.replace("{{id}}", profile.id);
@@ -16,6 +16,7 @@ Profile.format = function(profiles) {
         carte = carte.replace("{{min_age}}", profile.min_age);
         html += carte;
     }
+    html += "</div>";
     return html;
 };
 

@@ -6,7 +6,7 @@ body {
   margin: 0;
 }
 
-#content {
+#content:has(.movie__card) {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1rem;

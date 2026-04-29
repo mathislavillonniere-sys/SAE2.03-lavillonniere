@@ -33,9 +33,7 @@
 
       window.C = {};
       window.V = {};
-
       window.activeProfile = null;
-
 
       C.handlerAbout = function () {
         alert(
@@ -52,7 +50,17 @@
       };
 
       C.start = async function () {
+        if (!window.activeProfile) {
+          // Pas de profil → affiche la sélection de profil
+          document.querySelector("#header").innerHTML = "";
+          let profiles = await DataProfile.requestProfiles();
+          document.querySelector("#content").innerHTML =
+            Profile.format(profiles);
+          return;
+        }
+        // Profil actif → affiche les films
         let categories = await DataMovie.requestCategories();
+        window.currentCategories = categories;
         V.renderNavBar("C.handlerAbout()", "C.start()", categories);
         let films = await DataMovie.requestMovies();
         document.querySelector("#content").innerHTML = Movie.format(films);
@@ -62,6 +70,7 @@
         let film = await DataMovie.requestMovieDetails(id);
         document.querySelector("#content").innerHTML = MovieDetail.format(film);
       };
+
       C.handlerCategory = async function (categoryName) {
         let films = await DataMovie.requestMovies();
         let filtered = films.filter((f) => f.category_name === categoryName);
@@ -84,26 +93,7 @@
 
       C.handlerSelectProfile = function (id, name, min_age) {
         window.activeProfile = { id, name, min_age };
-        V.renderNavBar(
-          "C.handlerAbout()",
-          "C.start()",
-          window.currentCategories,
-        );
         C.start();
-      };
-
-      C.start = async function () {
-        if (!window.activeProfile) {
-          let profiles = await DataProfile.requestProfiles();
-          document.querySelector("#content").innerHTML =
-            Profile.format(profiles);
-          return;
-        }
-        let categories = await DataMovie.requestCategories();
-        window.currentCategories = categories;
-        V.renderNavBar("C.handlerAbout()", "C.start()", categories);
-        let films = await DataMovie.requestMovies();
-        document.querySelector("#content").innerHTML = Movie.format(films);
       };
 
       C.start();
