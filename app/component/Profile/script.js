@@ -15,8 +15,7 @@ Profile.format = function (profiles) {
     carte = carte.replace(
       "{{avatar}}",
       profile.avatar
-        ? "https://mmi.unilim.fr/~lavillonniere7/SAE2.03-lavillonniere/server/images/" +
-            profile.avatar
+        ? "../server/images/" + profile.avatar
         : "",
     );
     carte = carte.replace("{{min_age}}", profile.min_age);

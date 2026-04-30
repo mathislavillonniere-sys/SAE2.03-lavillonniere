@@ -14,7 +14,7 @@ Movie.format = function (films) {
     let carte = template;
     carte = carte.replace("{{id}}", film.id);
     carte = carte.replace("{{name}}", film.name);
-    carte = carte.replace("{{image}}", "https://mmi.unilim.fr/~lavillonniere7/SAE2.03-lavillonniere/server/images/" + film.image);
+    carte = carte.replace("{{image}}", "../server/images/" + film.image);
     html += carte;
   }
   return html;
