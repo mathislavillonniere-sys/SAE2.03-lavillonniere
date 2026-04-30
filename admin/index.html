@@ -46,18 +46,51 @@
       V.renderLog(res);
     }
 
-    C.handlerAddProfile = async function () {
-      let form = document.querySelector('.addProfile__form');
-      let fd = new FormData(form);
-      let res = await DataProfile.add(fd);
-      V.renderLog(res);
-    };
-
-    C.start = function () {
-      V.renderLog("Bienvenue dans le back office");
-      V.renderMenu("C.handlerUpdate()");
-      V.renderProfile("C.handlerAddProfile()");
+    C.handlerAddProfile = async function() {
+    let form = document.querySelector('.addProfile__form');
+    let fd = new FormData(form);
+    let id = fd.get('id');
+    
+    let res;
+    if (id) {
+        res = await DataProfile.update(fd);
+    } else {
+        res = await DataProfile.add(fd);
     }
+    V.renderLog(res);
+    // Recharge le formulaire avec les profils à jour
+    let profiles = await DataProfile.readProfiles();
+    V.renderProfile("C.handlerAddProfile()", profiles);
+};
+
+C.handlerLoadProfile = async function(id) {
+    if (!id) {
+        // Nouveau profil — vide le formulaire
+        document.querySelector('.addProfile__form input[name="id"]').value = "";
+        document.querySelector('.addProfile__form input[name="name"]').value = "";
+        document.querySelector('.addProfile__form input[name="avatar"]').value = "";
+        document.querySelector('.addProfile__form input[name="min_age"]').value = "";
+        return;
+    }
+    // Charge les données du profil sélectionné
+    let profiles = await DataProfile.readProfiles();
+    let profile = profiles.find(p => p.id == id);
+    if (profile) {
+        document.querySelector('.addProfile__form input[name="id"]').value = profile.id;
+        document.querySelector('.addProfile__form input[name="name"]').value = profile.name;
+        document.querySelector('.addProfile__form input[name="avatar"]').value = profile.avatar || "";
+        document.querySelector('.addProfile__form input[name="min_age"]').value = profile.min_age;
+    }
+};
+
+
+
+   C.start = async function() {
+    V.renderLog("Bienvenue dans le back office");
+    V.renderMenu("C.handlerUpdate()");
+    let profiles = await DataProfile.readProfiles();
+    V.renderProfile("C.handlerAddProfile()", profiles);
+};
 
     window.V = {};
 
@@ -71,11 +104,10 @@
       content.innerHTML = NewMenuForm.format(handler);
     }
 
-    V.renderProfile = function (handler) {
-      let content = document.querySelector('#addProfile');
-      content.innerHTML = ProfileForm.format(handler);
-    };
-
+    V.renderProfile = function(handler, profiles) {
+    let content = document.querySelector('#addProfile');
+    content.innerHTML = ProfileForm.format(handler, profiles);
+};
     C.start();
   </script>
 </body>

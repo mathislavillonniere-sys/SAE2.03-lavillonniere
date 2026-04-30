@@ -141,3 +141,23 @@ function getAllProfiles(){
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_OBJ);
 }
+
+function updateProfile($id, $name, $avatar, $min_age){
+    try {
+        $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
+        $cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "INSERT INTO SAE203_Profile (id, name, avatar, min_age) 
+                VALUES (:id, :name, :avatar, :min_age)
+                ON DUPLICATE KEY UPDATE 
+                name = :name, avatar = :avatar, min_age = :min_age";
+        $stmt = $cnx->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':avatar', $avatar);
+        $stmt->bindParam(':min_age', $min_age);
+        $stmt->execute();
+        return $stmt->rowCount();
+    } catch (PDOException $e) {
+        return 'Erreur : ' . $e->getMessage();
+    }
+}

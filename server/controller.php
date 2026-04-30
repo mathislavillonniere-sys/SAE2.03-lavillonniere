@@ -86,3 +86,19 @@ function addProfileController(){
 function readProfilesController(){
     return getAllProfiles();
 }
+
+function updateProfileController(){
+    $id = $_POST['id'] ?? null;
+    $name = $_POST['name'] ?? null;
+    $avatar = $_POST['avatar'] ?? null;
+    $min_age = !empty($_POST['min_age']) ? (int)$_POST['min_age'] : 0;
+
+    if (!$name) return "Champs obligatoires manquants";
+
+    $res = updateProfile($id, $name, $avatar, $min_age);
+    if ($res >= 1) {
+        return "Le profil a été modifié avec succès !";
+    } else {
+        return "Erreur : " . $res;
+    }
+}
