@@ -83,7 +83,7 @@
         window.activeProfile = { id, name, min_age };
         C.start();
       };
-      d;
+
       C.handlerFavoris = async function () {
         if (!window.activeProfile) return;
         let films = await DataMovie.getFavoris(window.activeProfile.id);
