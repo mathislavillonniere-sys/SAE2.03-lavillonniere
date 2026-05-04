@@ -201,6 +201,8 @@ function isFavoris($id_profile, $id_movie){
     // NOUVEAU : On renvoie 1 (vrai) ou 0 (faux) au lieu de true/false
     return $stmt->fetch(PDO::FETCH_OBJ) ? 1 : 0;
 }
+
+
 function deleteFavoris($id_profile, $id_movie){
     try {
         $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);

@@ -123,6 +123,9 @@ function isFavorisController(){
     if (!$id_profile || !$id_movie) return false;
     return isFavoris($id_profile, $id_movie);
 }
+
+
+
 function deleteFavorisController(){
     $id_profile = $_POST['id_profile'] ?? null;
     $id_movie = $_POST['id_movie'] ?? null;
