@@ -27,7 +27,6 @@
       import { DataMovie } from "./data/dataMovie.js";
       import { Movie } from "./component/iteration1/Movie/script.js";
       import { MovieDetail } from "./component/iteration3/MovieDetail/script.js";
-      import { MovieCategory } from "./component/iteration4/MovieCategory/script.js";
       import { Profile } from "./component/Profile/script.js";
       import { DataProfile } from "./data/dataProfile.js";
 
@@ -36,9 +35,7 @@
       window.activeProfile = null;
 
       C.handlerAbout = function () {
-        alert(
-          "Ceci est une base de projet pour la SAE2.03 édition 2025. Bonne chance !",
-        );
+        alert("Ceci est une base de projet pour la SAE2.03. Bonne chance !");
       };
 
       V.renderNavBar = function (hAbout, hHome, categories) {
@@ -51,54 +48,74 @@
 
       C.start = async function () {
         if (!window.activeProfile) {
-          // Pas de profil → affiche la sélection de profil
           document.querySelector("#header").innerHTML = "";
           let profiles = await DataProfile.requestProfiles();
           document.querySelector("#content").innerHTML =
             Profile.format(profiles);
           return;
         }
-        // Profil actif → affiche les films
         let categories = await DataMovie.requestCategories();
-        window.currentCategories = categories;
         V.renderNavBar("C.handlerAbout()", "C.start()", categories);
-        let films = await DataMovie.requestMovies(
-          window.activeProfile ? window.activeProfile.min_age : 99,
-        );
-
+        let films = await DataMovie.requestMovies(window.activeProfile.min_age);
         document.querySelector("#content").innerHTML = Movie.format(films);
       };
 
       C.handlerDetail = async function (id) {
         let film = await DataMovie.requestMovieDetails(id);
-        document.querySelector("#content").innerHTML = MovieDetail.format(film);
-      };
-
-      C.handlerCategory = async function (categoryName) {
-        let films = await DataMovie.requestMovies(
-          window.activeProfile ? window.activeProfile.min_age : 99,
-        );
-        let filtered = films.filter((f) => f.category_name === categoryName);
-        if (filtered.length === 0) {
-          document.querySelector("#content").innerHTML =
-            "<p>Aucun film dans cette catégorie.</p>";
-        } else {
-          document.querySelector("#content").innerHTML = Movie.format(filtered);
+        let isFav = 0;
+        if (window.activeProfile) {
+          isFav = await DataMovie.isFavoris(window.activeProfile.id, id);
         }
+        document.querySelector("#content").innerHTML = MovieDetail.format(
+          film,
+          isFav,
+        );
       };
 
       C.handlerHome = function () {
         C.start();
       };
-
       C.handlerChangeProfile = function () {
         window.activeProfile = null;
         C.start();
       };
-
       C.handlerSelectProfile = function (id, name, min_age) {
         window.activeProfile = { id, name, min_age };
         C.start();
+      };
+
+      C.handlerFavoris = async function () {
+        if (!window.activeProfile) return;
+        let films = await DataMovie.getFavoris(window.activeProfile.id);
+        if (films.length === 0) {
+          document.querySelector("#content").innerHTML =
+            "<p>Votre liste de favoris est vide.</p>";
+        } else {
+          // On passe "true" pour afficher le bouton retirer
+          document.querySelector("#content").innerHTML = Movie.format(
+            films,
+            true,
+          );
+        }
+      };
+
+      C.handlerAddFavoris = async function (id_movie) {
+        let res = await DataMovie.addFavoris(window.activeProfile.id, id_movie);
+        alert(res);
+        C.handlerDetail(id_movie);
+      };
+
+      C.handlerDeleteFavoris = async function (id_movie) {
+        if (!window.activeProfile) return;
+
+        let res = await DataMovie.deleteFavoris(
+          window.activeProfile.id,
+          id_movie,
+        );
+        alert(res);
+
+        // On recharge la vue détail pour que le bouton redevienne "Ajouter"
+        C.handlerDetail(id_movie);
       };
 
       C.start();

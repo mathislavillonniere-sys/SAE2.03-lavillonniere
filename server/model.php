@@ -14,15 +14,15 @@
  * DBLOGIN : Nom d'utilisateur pour se connecter à la base de données.
  * DBPWD : Mot de passe pour se connecter à la base de données.
  */
-// define("HOST", "localhost");
-// define("DBNAME", "lavillonniere7");
-// define("DBLOGIN", "lavillonniere7");
-// define("DBPWD", "lavillonniere7");
-
 define("HOST", "localhost");
-define("DBNAME", "SAE203");
-define("DBLOGIN", "Mathis");
-define("DBPWD", "Mathis792302025.");
+define("DBNAME", "lavillonniere7");
+define("DBLOGIN", "lavillonniere7");
+define("DBPWD", "lavillonniere7");
+
+// define("HOST", "localhost");
+// define("DBNAME", "SAE203");
+// define("DBLOGIN", "Mathis");
+// define("DBPWD", "Mathis792302025.");
 
 
 function getAllMovies($age = 0){
@@ -157,6 +157,60 @@ function updateProfile($id, $name, $avatar, $min_age){
         $stmt->bindParam(':min_age', $min_age);
         $stmt->execute();
         return $stmt->rowCount();
+    } catch (PDOException $e) {
+        return 'Erreur : ' . $e->getMessage();
+    }
+}
+function addFavoris($id_profile, $id_movie){
+    try {
+        $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
+        $cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "INSERT INTO SAE203_Favoris (id_profile, id_movie) 
+                VALUES (:id_profile, :id_movie)";
+        $stmt = $cnx->prepare($sql);
+        $stmt->bindParam(':id_profile', $id_profile);
+        $stmt->bindParam(':id_movie', $id_movie);
+        $stmt->execute();
+        return $stmt->rowCount();
+    } catch (PDOException $e) {
+        return 'Erreur : ' . $e->getMessage();
+    }
+}
+
+function getFavoris($id_profile){
+    $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
+    $sql = "SELECT m.id, m.name, m.image 
+            FROM SAE203_Favoris f
+            JOIN SAE203_Movie m ON f.id_movie = m.id
+            WHERE f.id_profile = :id_profile";
+    $stmt = $cnx->prepare($sql);
+    $stmt->bindParam(':id_profile', $id_profile);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_OBJ);
+}
+
+function isFavoris($id_profile, $id_movie){
+    $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
+    $sql = "SELECT id FROM SAE203_Favoris 
+            WHERE id_profile = :id_profile AND id_movie = :id_movie";
+    $stmt = $cnx->prepare($sql);
+    $stmt->bindParam(':id_profile', $id_profile);
+    $stmt->bindParam(':id_movie', $id_movie);
+    $stmt->execute();
+    
+    // NOUVEAU : On renvoie 1 (vrai) ou 0 (faux) au lieu de true/false
+    return $stmt->fetch(PDO::FETCH_OBJ) ? 1 : 0;
+}
+function deleteFavoris($id_profile, $id_movie){
+    try {
+        $cnx = new PDO("mysql:host=".HOST.";dbname=".DBNAME, DBLOGIN, DBPWD);
+        $cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "DELETE FROM SAE203_Favoris WHERE id_profile = :id_profile AND id_movie = :id_movie";
+        $stmt = $cnx->prepare($sql);
+        $stmt->bindParam(':id_profile', $id_profile);
+        $stmt->bindParam(':id_movie', $id_movie);
+        $stmt->execute();
+        return 1;
     } catch (PDOException $e) {
         return 'Erreur : ' . $e->getMessage();
     }

@@ -4,7 +4,6 @@ let template = await templateFile.text();
 let Movie = {};
 
 Movie.format = function (films) {
-
   if (films.length === 0) {
     return "<p>Aucun film disponible pour le moment.</p>";
   }
@@ -12,8 +11,9 @@ Movie.format = function (films) {
   let html = "";
   for (let film of films) {
     let carte = template;
-    carte = carte.replace("{{id}}", film.id);
-    carte = carte.replace("{{name}}", film.name);
+    // ON UTILISE REPLACE ALL ICI AUSSI !
+    carte = carte.replaceAll("{{id}}", film.id);
+    carte = carte.replaceAll("{{name}}", film.name);
     carte = carte.replace("{{image}}", "../server/images/" + film.image);
     html += carte;
   }

@@ -26,5 +26,43 @@ DataMovie.requestCategories = async function () {
   let data = await answer.json();
   return data;
 };
+DataMovie.addFavoris = async function (id_profile, id_movie) {
+  let fd = new FormData();
+  fd.append("id_profile", id_profile);
+  fd.append("id_movie", id_movie);
+  let answer = await fetch(HOST_URL + "server/script.php?todo=addFavoris", {
+    method: "POST",
+    body: fd,
+  });
+  return await answer.json();
+};
 
+DataMovie.getFavoris = async function (id_profile) {
+  let answer = await fetch(
+    HOST_URL + "server/script.php?todo=getFavoris&id_profile=" + id_profile,
+  );
+  return await answer.json();
+};
+
+DataMovie.isFavoris = async function (id_profile, id_movie) {
+  let answer = await fetch(
+    HOST_URL +
+      "server/script.php?todo=isFavoris&id_profile=" +
+      id_profile +
+      "&id_movie=" +
+      id_movie,
+  );
+  return await answer.json();
+};
+
+DataMovie.deleteFavoris = async function (id_profile, id_movie) {
+  let fd = new FormData();
+  fd.append("id_profile", id_profile);
+  fd.append("id_movie", id_movie);
+  let answer = await fetch(HOST_URL + "server/script.php?todo=deleteFavoris", {
+    method: "POST",
+    body: fd,
+  });
+  return await answer.json();
+};
 export { DataMovie };

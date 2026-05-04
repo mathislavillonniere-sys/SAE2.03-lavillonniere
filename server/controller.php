@@ -102,3 +102,32 @@ function updateProfileController(){
         return "Erreur : " . $res;
     }
 }
+function addFavorisController(){
+    $id_profile = $_POST['id_profile'] ?? null;
+    $id_movie = $_POST['id_movie'] ?? null;
+    if (!$id_profile || !$id_movie) return "Données manquantes";
+    $res = addFavoris($id_profile, $id_movie);
+    if ($res === 1) return "Film ajouté aux favoris !";
+    return "Erreur : " . $res;
+}
+
+function getFavorisController(){
+    $id_profile = $_GET['id_profile'] ?? null;
+    if (!$id_profile) return false;
+    return getFavoris($id_profile);
+}
+
+function isFavorisController(){
+    $id_profile = $_GET['id_profile'] ?? null;
+    $id_movie = $_GET['id_movie'] ?? null;
+    if (!$id_profile || !$id_movie) return false;
+    return isFavoris($id_profile, $id_movie);
+}
+function deleteFavorisController(){
+    $id_profile = $_POST['id_profile'] ?? null;
+    $id_movie = $_POST['id_movie'] ?? null;
+    if (!$id_profile || !$id_movie) return "Données manquantes";
+    $res = deleteFavoris($id_profile, $id_movie);
+    if ($res === 1) return "Film retiré des favoris !";
+    return "Erreur : " . $res;
+}
