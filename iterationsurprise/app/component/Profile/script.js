@@ -14,9 +14,7 @@ Profile.format = function (profiles) {
     carte = carte.replaceAll("{{name}}", profile.name);
     carte = carte.replace(
       "{{avatar}}",
-      profile.avatar
-        ? "../server/images/" + profile.avatar
-        : "",
+      profile.avatar ? "../../server/images/" + profile.avatar : "",
     );
     carte = carte.replace("{{min_age}}", profile.min_age);
     html += carte;

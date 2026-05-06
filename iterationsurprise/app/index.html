@@ -37,18 +37,38 @@
 
       C.toggleCategories = function () {
         const overlay = document.querySelector("#navbar__categories-overlay");
-        if (overlay) {
+        if (overlay)
           overlay.classList.toggle("navbar__categories-overlay--active");
-        }
       };
 
-      C.handlerAbout = function () {
-        alert("Ceci est une base de projet pour la SAE2.03. Bonne chance !");
+      C.closeCategories = function () {
+        const overlay = document.querySelector("#navbar__categories-overlay");
+        if (overlay)
+          overlay.classList.remove("navbar__categories-overlay--active");
       };
 
-      // CORRECTION : Plus qu'un seul paramètre (categories)
+      C.toggleMenu = function () {
+        const menu = document.querySelector("#navbar__menu");
+        if (menu) menu.classList.toggle("navbar__list--open");
+      };
+
+      C.closeMenu = function () {
+        const menu = document.querySelector("#navbar__menu");
+        if (menu) menu.classList.remove("navbar__list--open");
+      };
+
+      C.setActiveNav = function (item) {
+        const items = document.querySelectorAll("#navbar__menu .navbar__item");
+        items.forEach((el) => el.classList.remove("navbar__item--active"));
+        if (item === "home") items[0]?.classList.add("navbar__item--active");
+        if (item === "categories")
+          items[1]?.classList.add("navbar__item--active");
+        if (item === "favoris") items[2]?.classList.add("navbar__item--active");
+      };
+
       V.renderNavBar = function (categories) {
         document.querySelector("#header").innerHTML = NavBar.format(categories);
+        setTimeout(() => C.setActiveNav("home"), 0);
       };
 
       C.start = async function () {
@@ -60,56 +80,32 @@
           return;
         }
         let categories = await DataMovie.requestCategories();
-
-        // CORRECTION : On envoie uniquement "categories" à la NavBar
         V.renderNavBar(categories);
-
         let films = await DataMovie.requestMovies(window.activeProfile.min_age);
         document.querySelector("#content").innerHTML = Movie.format(films);
       };
+
       C.handlerCategory = async function (categoryName) {
-        // On récupère les films via ton module DataMovie
+        C.closeCategories();
+        C.closeMenu();
+        setTimeout(() => C.setActiveNav("categories"), 0);
+
         let allMovies = await DataMovie.requestMovies(
           window.activeProfile.min_age,
         );
+        let filteredMovies = allMovies.filter(
+          (m) => m.category_name === categoryName,
+        );
 
-        // LE FILTRE CORRIGÉ : On utilise "category_name" comme vu dans ta console
-        let filteredMovies = allMovies.filter((movie) => {
-          return movie.category_name === categoryName;
-        });
-
-        // Affichage du résultat
         if (filteredMovies.length === 0) {
           document.querySelector("#content").innerHTML =
             `<h2 style="color:white; padding: 2rem;">Aucun film disponible pour : ${categoryName}</h2>`;
         } else {
-          // On utilise ton composant Movie pour afficher les vignettes
           document.querySelector("#content").innerHTML =
             Movie.format(filteredMovies);
         }
       };
-      C.handlerShowAllCategories = async function () {
-        // 1. Récupération des catégories depuis le serveur
-        let categories = await DataMovie.requestCategories();
 
-        // 2. Construction du HTML des tuiles
-        let tilesHtml = "";
-        categories.forEach((cat) => {
-          // On utilise le handlerCategory que nous avons corrigé ensemble
-          tilesHtml += `
-        <div class="category-tile" onclick="C.handlerCategory('${cat.name}')">
-          ${cat.name}
-        </div>`;
-        });
-
-        // 3. Injection dans la section #content
-        document.querySelector("#content").innerHTML = `
-      <div class="category-menu">
-        <div class="category-menu__grid">
-          ${tilesHtml}
-        </div>
-      </div>`;
-      };
       C.handlerDetail = async function (id) {
         let film = await DataMovie.requestMovieDetails(id);
         let isFav = 0;
@@ -125,10 +121,12 @@
       C.handlerHome = function () {
         C.start();
       };
+
       C.handlerChangeProfile = function () {
         window.activeProfile = null;
         C.start();
       };
+
       C.handlerSelectProfile = function (id, name, min_age) {
         window.activeProfile = { id, name, min_age };
         C.start();
@@ -139,14 +137,14 @@
         let films = await DataMovie.getFavoris(window.activeProfile.id);
         if (films.length === 0) {
           document.querySelector("#content").innerHTML =
-            "<p>Votre liste de favoris est vide.</p>";
+            "<p style='color:white; padding:2rem;'>Votre liste de favoris est vide.</p>";
         } else {
-          // On passe "true" pour afficher le bouton retirer
           document.querySelector("#content").innerHTML = Movie.format(
             films,
             true,
           );
         }
+        setTimeout(() => C.setActiveNav("favoris"), 0);
       };
 
       C.handlerAddFavoris = async function (id_movie) {
@@ -157,15 +155,22 @@
 
       C.handlerDeleteFavoris = async function (id_movie) {
         if (!window.activeProfile) return;
-
         let res = await DataMovie.deleteFavoris(
           window.activeProfile.id,
           id_movie,
         );
         alert(res);
-
-        // On recharge la vue détail pour que le bouton redevienne "Ajouter"
         C.handlerDetail(id_movie);
+      };
+      C.setActiveNav = function (item) {
+        console.log("setActiveNav appelé avec :", item);
+        const items = document.querySelectorAll("#navbar__menu .navbar__item");
+        console.log("nombre items :", items.length);
+        items.forEach((el) => el.classList.remove("navbar__item--active"));
+        if (item === "home") items[0]?.classList.add("navbar__item--active");
+        if (item === "categories")
+          items[1]?.classList.add("navbar__item--active");
+        if (item === "favoris") items[2]?.classList.add("navbar__item--active");
       };
 
       C.start();

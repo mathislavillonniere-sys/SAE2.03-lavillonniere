@@ -10,7 +10,7 @@ MovieDetail.format = function (film, isFav) {
   // ON AJOUTE LE REMPLACEMENT DE L'ID ICI
   html = html.replaceAll("{{id}}", film.id);
   html = html.replaceAll("{{name}}", film.name);
-  html = html.replace("{{image}}", "../server/images/" + film.image);
+  html = html.replace("{{image}}", "../../server/images/" + film.image);
   html = html.replace("{{description}}", film.description);
   html = html.replace("{{director}}", film.director);
   html = html.replace("{{year}}", film.year);

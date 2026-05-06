@@ -1,34 +1,31 @@
-/* Mobile */
 .profile__list {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  align-content: center;
   gap: 2rem;
   padding: 3rem 1rem;
-  min-height: 80vh;
-  align-items: center;
+  min-height: 100vh;
   background-color: var(--m6-black);
 }
-
-/* Titre au dessus des profils */
 .profile__list::before {
   content: "Qui regarde ?";
   width: 100%;
   text-align: center;
   font-family: var(--font-display);
-  font-size: 1.8rem;
+  font-size: clamp(1.4rem, 3vw, 2.5rem);
   font-weight: 900;
   text-transform: uppercase;
   color: var(--m6-text);
   letter-spacing: 0.05em;
+  margin-bottom: 0;
 }
-
 .profile_card {
   display: flex;
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  width: 100px;
+  width: 120px;
   gap: 0.6rem;
   transition: transform var(--transition);
 }
@@ -38,8 +35,8 @@
 }
 
 .profile_card img {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid var(--m6-border);
@@ -71,27 +68,26 @@
 
 /* Tablette */
 @media (min-width: 600px) {
-  .profile_card {
-    width: 120px;
-  }
   .profile_card img {
-    width: 100px;
-    height: 100px;
-  }
-}
-
-/* Desktop */
-@media (min-width: 1024px) {
-  .profile__list {
-    gap: 3.5rem;
-    padding: 5rem 2rem;
+    width: 130px;
+    height: 130px;
   }
   .profile_card {
     width: 150px;
   }
+}
+
+/* Desktop — s'agrandit mais reste centré, ne bouge pas */
+@media (min-width: 1024px) {
+  .profile__list {
+    gap: 4rem;
+  }
   .profile_card img {
-    width: 130px;
-    height: 130px;
+    width: 160px;
+    height: 160px;
+  }
+  .profile_card {
+    width: 180px;
   }
   .profile_card p {
     font-size: 1.1rem;

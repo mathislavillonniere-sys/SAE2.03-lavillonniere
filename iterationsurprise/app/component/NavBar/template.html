@@ -1,8 +1,40 @@
-<nav class="navbar font-sans">
-  <ul class="navbar__list">
-    <li class="navbar__item" onclick="C.handlerHome()">Tous les films</li>
-    <li class="navbar__item" onclick="C.toggleCategories()">Catégories ▾</li>
-    <li class="navbar__item" onclick="C.handlerFavoris()">Mes favoris</li>
+<nav class="navbar">
+  <button class="navbar__burger" onclick="C.toggleMenu()" aria-label="Menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <ul class="navbar__list" id="navbar__menu">
+    <li
+      class="navbar__item"
+      onclick="
+        C.handlerHome();
+        C.closeMenu();
+        C.closeCategories();
+      "
+    >
+      Accueil
+    </li>
+    <li
+      class="navbar__item"
+      onclick="
+        C.toggleCategories();
+        setTimeout(() => C.setActiveNav('categories'), 0);
+      "
+    >
+      Catégories ▾
+    </li>
+    <li
+      class="navbar__item"
+      onclick="
+        C.handlerFavoris();
+        C.closeMenu();
+        C.closeCategories();
+      "
+    >
+      Mes favoris
+    </li>
   </ul>
 
   <div id="navbar__categories-overlay" class="navbar__categories-overlay">

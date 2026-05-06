@@ -1,6 +1,6 @@
 // URL où se trouve le répertoire "server" sur mmi.unilim.fr
 
-let HOST_URL = "../";
+let HOST_URL = "../../";
 // let HOST_URL = "https://lavillonniere-sae203.mmi-limoges.fr/";
 
 let DataMovie = {};

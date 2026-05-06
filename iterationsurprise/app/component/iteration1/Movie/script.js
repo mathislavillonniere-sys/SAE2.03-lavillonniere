@@ -14,7 +14,7 @@ Movie.format = function (films) {
     // ON UTILISE REPLACE ALL ICI AUSSI !
     carte = carte.replaceAll("{{id}}", film.id);
     carte = carte.replaceAll("{{name}}", film.name);
-    carte = carte.replace("{{image}}", "../server/images/" + film.image);
+    carte = carte.replace("{{image}}", "../../server/images/" + film.image);
     html += carte;
   }
   return html;

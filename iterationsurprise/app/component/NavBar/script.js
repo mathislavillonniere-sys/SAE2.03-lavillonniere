@@ -3,22 +3,12 @@ let navbarTemplate = await templateFile.text();
 
 let NavBar = {};
 
-window.C = window.C || {};
-
-window.C.toggleCategories = function () {
-  const overlay = document.querySelector("#navbar__categories-overlay");
-  if (overlay) {
-    overlay.classList.toggle("navbar__categories-overlay--active");
-  }
-};
-
 NavBar.format = function (categories) {
   let html = navbarTemplate;
   let allTiles = "";
 
-  // Le modèle de la tuile est sécurisé ici !
   let tileTemplate = `
-    <div class="navbar__category-tile" onclick="C.handlerCategory('{{categoryName}}'); C.toggleCategories();">
+    <div class="navbar__category-tile" onclick="C.handlerCategory('{{categoryName}}');">
       {{categoryName}}
     </div>`;
 

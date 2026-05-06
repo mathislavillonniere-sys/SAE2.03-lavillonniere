@@ -1,4 +1,4 @@
-let HOST_URL = "../";
+let HOST_URL = "../../";
 
 let DataProfile = {};
 
