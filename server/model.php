@@ -14,15 +14,15 @@
  * DBLOGIN : Nom d'utilisateur pour se connecter à la base de données.
  * DBPWD : Mot de passe pour se connecter à la base de données.
  */
-// define("HOST", "localhost");
-// define("DBNAME", "lavillonniere7");
-// define("DBLOGIN", "lavillonniere7");
-// define("DBPWD", "lavillonniere7");
-
 define("HOST", "localhost");
-define("DBNAME", "SAE203");
-define("DBLOGIN", "Mathis");
-define("DBPWD", "Mathis792302025.");
+define("DBNAME", "lavillonniere7");
+define("DBLOGIN", "lavillonniere7");
+define("DBPWD", "lavillonniere7");
+
+// define("HOST", "localhost");
+// define("DBNAME", "SAE203");
+// define("DBLOGIN", "Mathis");
+// define("DBPWD", "Mathis792302025.");
 
 
 function getAllMovies($age = 0){
