@@ -1,0 +1,24 @@
+
+*** These modified files were found in JOE when it aborted on Mon May  4 20:15:53 2026
+*** JOE was aborted because the terminal closed
+
+*** Fichier '(Sans nom)'
+/home/etudiants/lavillonniere7/public_html/SAE2.03-lavillonniere/.git/COMMIT_EDITMSG
+
+*** Fichier '/home/etudiants/lavillonniere7/public_html/SAE2.03-lavillonniere/.git/COMMIT_EDITMSG'
+'/home/etudiants/lavillonniere7/public_html/SAE2.03-lavillonniere/app/index.html'
+ité 9
+
+# Veuillez saisir le message de validation pour vos modifications. Les lignes
+# commençant par '#' seront ignorées, et un message vide abandonne la validation.
+#
+# Sur la branche master
+# Votre branche est à jour avec 'origin/master'.
+#
+# Modifications qui seront validées :
+#	modifié :         app/index.html
+#
+
+*** Fichier '* Startup Log *'
+Traitement de '/etc/joe/editorrc'...Traitement de '/etc/joe/ftyperc'...Finished processing /etc/joe/ftyperc
+Finished processing /etc/joe/editorrc

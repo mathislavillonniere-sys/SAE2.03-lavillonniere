@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;600;700&display=swap");
+
+:root {
+  --m6-yellow: #ffd200;
+  --m6-yellow-dark: #cca800;
+  --m6-yellow-glow: rgba(255, 210, 0, 0.15);
+  --m6-black: #0d0d0d;
+  --m6-dark: #141414;
+  --m6-card-bg: #1e1e1e;
+  --m6-border: #2c2c2c;
+  --m6-text: #ffffff;
+  --m6-text-muted: #aaaaaa;
+  --m6-text-dim: #555555;
+
+  --font-display: "Barlow Condensed", sans-serif;
+  --font-body: "Barlow", sans-serif;
+
+  --radius: 6px;
+  --transition: 0.2s ease;
+}
+
+body {
+  width: 100%;
+  background-color: var(--m6-black);
+  color: var(--m6-text);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--m6-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--m6-yellow);
+  border-radius: 3px;
+}

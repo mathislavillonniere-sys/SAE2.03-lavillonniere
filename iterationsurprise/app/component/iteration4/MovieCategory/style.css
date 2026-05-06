@@ -1,0 +1,90 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;600;700&display=swap");
+
+/* Wrapper global des catégories */
+#content:has(.movie__category) {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 1rem 0;
+  background-color: var(--m6-black);
+}
+
+.movie__category {
+  padding: 1.2rem 1rem 1.5rem;
+}
+
+/* Titre de catégorie style M6 */
+.movie__category__title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--m6-text);
+  border-left: 4px solid var(--m6-yellow);
+  padding-left: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+/* Liste en scroll horizontal comme M6+ */
+.movie__category__list {
+  display: flex;
+  flex-direction: row;
+  gap: 0.6rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--m6-yellow) var(--m6-dark);
+}
+
+.movie__category__list::-webkit-scrollbar {
+  height: 3px;
+}
+.movie__category__list::-webkit-scrollbar-thumb {
+  background: var(--m6-yellow);
+  border-radius: 2px;
+}
+
+/* Les cards dans les catégories */
+.movie__category__list .movie__card {
+  flex: 0 0 140px;
+}
+
+.movie__category__list .movie__card img {
+  height: 200px;
+}
+
+/* Tablette */
+@media (min-width: 600px) {
+  .movie__category {
+    padding: 1.2rem 1.5rem 1.8rem;
+  }
+  .movie__category__title {
+    font-size: 1.4rem;
+  }
+  .movie__category__list .movie__card {
+    flex: 0 0 170px;
+  }
+  .movie__category__list .movie__card img {
+    height: 240px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .movie__category {
+    padding: 1.5rem 2rem 2rem;
+  }
+  .movie__category__title {
+    font-size: 1.6rem;
+  }
+  .movie__category__list {
+    gap: 0.9rem;
+  }
+  .movie__category__list .movie__card {
+    flex: 0 0 200px;
+  }
+  .movie__category__list .movie__card img {
+    height: 280px;
+  }
+}

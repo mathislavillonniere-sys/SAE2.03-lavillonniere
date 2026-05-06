@@ -1,0 +1,136 @@
+
+
+<?php
+
+/** ARCHITECTURE PHP SERVEUR  : Rôle du fichier controller.php
+ * 
+ *  Dans ce fichier, on va définir les fonctions de contrôle qui vont traiter les requêtes HTTP.
+ *  Les requêtes HTTP sont interprétées selon la valeur du paramètre 'todo' de la requête (voir script.php)
+ *  Pour chaque valeur différente, on déclarera une fonction de contrôle différente.
+ * 
+ *  Les fonctions de contrôle vont éventuellement lire les paramètres additionnels de la requête, 
+ *  les vérifier, puis appeler les fonctions du modèle (model.php) pour effectuer les opérations
+ *  nécessaires sur la base de données.
+ *  
+ *  Si la fonction échoue à traiter la requête, elle retourne false (mauvais paramètres, erreur de connexion à la BDD, etc.)
+ *  Sinon elle retourne le résultat de l'opération (des données ou un message) à includre dans la réponse HTTP.
+ */
+
+/** Inclusion du fichier model.php
+ *  Pour pouvoir utiliser les fonctions qui y sont déclarées et qui permettent
+ *  de faire des opérations sur les données stockées en base de données.
+ */
+require("model.php");
+
+
+function readMoviesController(){
+    $age = isset($_GET['age']) ? (int)$_GET['age'] : 0;
+    $movies = getAllMovies($age);
+    return $movies;
+}
+
+
+  function addMovieController(){
+    $name = $_POST['titre'] ?? null;
+    $director = $_POST['realisateur'] ?? null;
+    $year = !empty($_POST['annee']) ? (int)$_POST['annee'] : null;
+    $length = !empty($_POST['duree']) ? (int)$_POST['duree'] : null;
+    $description = $_POST['description'] ?? null;
+    $categoryName = $_POST['category'] ?? null;
+    $image = $_POST['poster'] ?? null;
+    $trailer = $_POST['trailer'] ?? null;
+    $min_age = !empty($_POST['age']) ? (int)$_POST['age'] : null;
+
+    if (!$name || !$director || !$year) {
+        return "Champs obligatoires manquants";
+    }
+
+    $id_category = getOrCreateCategory($categoryName);
+
+
+    $res = insertMovie($name, $director, $year, $length, $description, $id_category, $image, $trailer, $min_age);
+    if ($res === 1) {
+        return "Le film a été ajouté avec succès !";
+    } else {
+        return "Erreur : " . $res;
+    }
+}
+
+function readMovieDetailController(){
+    $id = $_GET['id'] ?? null;
+    if (!$id) return false;
+    return getMovieDetail($id);
+}
+
+function readCategoriesController(){
+    return getAllCategories();
+}
+
+function addProfileController(){
+    $name = $_POST['name'] ?? null;
+    $avatar = $_POST['avatar'] ?? null;
+    $min_age = !empty($_POST['min_age']) ? (int)$_POST['min_age'] : 0;
+
+    if (!$name) {
+        return "Champs obligatoires manquants";
+    }
+
+    $res = insertProfile($name, $avatar, $min_age);
+    if ($res === 1) {
+        return "Le profil a été ajouté avec succès !";
+    } else {
+        return "Erreur : " . $res;
+    }
+}
+
+function readProfilesController(){
+    return getAllProfiles();
+}
+
+function updateProfileController(){
+    $id = $_POST['id'] ?? null;
+    $name = $_POST['name'] ?? null;
+    $avatar = $_POST['avatar'] ?? null;
+    $min_age = !empty($_POST['min_age']) ? (int)$_POST['min_age'] : 0;
+
+    if (!$name) return "Champs obligatoires manquants";
+
+    $res = updateProfile($id, $name, $avatar, $min_age);
+    if ($res >= 1) {
+        return "Le profil a été modifié avec succès !";
+    } else {
+        return "Erreur : " . $res;
+    }
+}
+function addFavorisController(){
+    $id_profile = $_POST['id_profile'] ?? null;
+    $id_movie = $_POST['id_movie'] ?? null;
+    if (!$id_profile || !$id_movie) return "Données manquantes";
+    $res = addFavoris($id_profile, $id_movie);
+    if ($res === 1) return "Film ajouté aux favoris !";
+    return "Erreur : " . $res;
+}
+
+function getFavorisController(){
+    $id_profile = $_GET['id_profile'] ?? null;
+    if (!$id_profile) return false;
+    return getFavoris($id_profile);
+}
+
+function isFavorisController(){
+    $id_profile = $_GET['id_profile'] ?? null;
+    $id_movie = $_GET['id_movie'] ?? null;
+    if (!$id_profile || !$id_movie) return false;
+    return isFavoris($id_profile, $id_movie);
+}
+
+
+
+function deleteFavorisController(){
+    $id_profile = $_POST['id_profile'] ?? null;
+    $id_movie = $_POST['id_movie'] ?? null;
+    if (!$id_profile || !$id_movie) return "Données manquantes";
+    $res = deleteFavoris($id_profile, $id_movie);
+    if ($res === 1) return "Film retiré des favoris !";
+    return "Erreur : " . $res;
+}

@@ -1,0 +1,114 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;600;700&display=swap");
+
+/* Mobile */
+.movie__detail {
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: var(--m6-black);
+  color: var(--m6-text);
+  min-height: 100vh;
+}
+
+.movie__detail button {
+  width: fit-content;
+  padding: 0.55rem 1.2rem;
+  background-color: var(--m6-yellow);
+  color: var(--m6-black);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: background-color var(--transition);
+}
+
+.movie__detail button:hover {
+  background-color: var(--m6-yellow-dark);
+}
+
+.movie__detail img {
+  width: 100%;
+  max-width: 220px;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+}
+
+.movie__detail h1 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--m6-text);
+  line-height: 1.1;
+}
+
+/* Petit bandeau jaune sous le titre */
+.movie__detail h1::after {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 3px;
+  background-color: var(--m6-yellow);
+  margin-top: 0.5rem;
+}
+
+.movie__detail p {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--m6-text-muted);
+  margin: 0;
+}
+
+/* Infos comme réalisateur, année… */
+.movie__detail p strong {
+  color: var(--m6-yellow);
+  font-weight: 700;
+}
+
+.movie__detail iframe {
+  width: 100%;
+  height: 200px;
+  border: none;
+  border-radius: var(--radius);
+}
+
+/* Tablette */
+@media (min-width: 600px) {
+  .movie__detail {
+    padding: 2rem 1.5rem;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .movie__detail h1 {
+    font-size: 2.4rem;
+  }
+  .movie__detail iframe {
+    height: 280px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .movie__detail {
+    max-width: 780px;
+    margin: 2rem auto;
+    padding: 2rem;
+    gap: 1.2rem;
+  }
+  .movie__detail h1 {
+    font-size: 2.8rem;
+  }
+  .movie__detail p {
+    font-size: 1rem;
+  }
+  .movie__detail iframe {
+    width: 100%;
+    height: 340px;
+  }
+}

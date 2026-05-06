@@ -1,0 +1,170 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--m6-dark);
+  padding: 0 2rem;
+  height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 3px solid var(--m6-yellow);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
+}
+
+.navbar__list {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar__item {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  padding: 0 1.1rem;
+  color: var(--m6-text-muted);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -3px;
+  transition:
+    color var(--transition),
+    border-color var(--transition);
+}
+
+.navbar__item:hover {
+  color: var(--m6-yellow);
+  border-bottom-color: var(--m6-yellow);
+}
+
+/* Dropdown */
+.navbar__dropdown {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.navbar__dropdown__list {
+  display: none;
+  position: absolute;
+  top: calc(100% + 3px);
+  left: 0;
+  background-color: var(--m6-dark);
+  border: 1px solid var(--m6-border);
+  border-top: 2px solid var(--m6-yellow);
+  list-style: none;
+  padding: 0.4rem 0;
+  min-width: 180px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+  z-index: 200;
+}
+
+.navbar__dropdown:hover .navbar__dropdown__list {
+  display: block;
+}
+
+.navbar__dropdown__item {
+  padding: 0.55rem 1.2rem;
+  color: var(--m6-text-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition:
+    background-color var(--transition),
+    color var(--transition);
+}
+
+.navbar__dropdown__item:hover {
+  background-color: var(--m6-yellow);
+  color: var(--m6-black);
+}
+
+/* Bouton profil à droite */
+.navbar > div .navbar__item {
+  background-color: var(--m6-yellow);
+  color: var(--m6-black);
+  font-weight: 700;
+  border-radius: var(--radius);
+  height: 38px;
+  border-bottom: none;
+  margin-bottom: 0;
+  padding: 0 1.2rem;
+  font-size: 0.8rem;
+  transition: background-color var(--transition);
+}
+
+.navbar > div .navbar__item:hover {
+  background-color: var(--m6-yellow-dark);
+  color: var(--m6-black);
+  border-bottom: none;
+}
+/* L'overlay qui contient les catégories */
+.navbar__categories-overlay {
+  display: none; /* Caché par défaut */
+  position: absolute;
+  top: 64px; /* Se place juste sous la navbar */
+  left: 0;
+  width: 100%;
+  background-color: rgba(15, 15, 15, 0.98); /* Fond très sombre */
+  border-bottom: 2px solid var(--m6-yellow);
+  padding: 1rem 2rem;
+  z-index: 1000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+/* Classe ajoutée par JS pour montrer le menu */
+.navbar__categories-overlay--active {
+  display: block;
+}
+
+/* Grille pour ranger les petites tuiles */
+.navbar__categories-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Style des PETITES tuiles */
+.navbar__category-tile {
+  background-color: #1a1a1a;
+  color: var(--m6-text);
+  width: calc(14.28% - 8px); /* Environ 7 tuiles par ligne pour être petit */
+  height: 45px; /* Hauteur réduite */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.navbar__category-tile:hover {
+  background-color: var(--m6-yellow);
+  color: var(--m6-black);
+}
+
+/* Responsive : 2 colonnes sur mobile */
+@media (max-width: 768px) {
+  .category-tile {
+    width: calc(50% - 15px);
+  }
+}
