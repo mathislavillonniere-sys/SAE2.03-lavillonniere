@@ -70,7 +70,14 @@
         document.querySelector("#header").innerHTML = NavBar.format(categories);
         setTimeout(() => C.setActiveNav("home"), 0);
       };
-
+      V.renderCarousel = function (categories) {
+        let html = `<div style="width:100%"><div class="categorie__carousel">`;
+        for (let cat of categories) {
+          html += `<div class="categories__carousel-item" onclick="C.handlerCategory('${cat.name}')">${cat.name}</div>`;
+        }
+        html += `</div></div>`;
+        return html;
+      };
       C.start = async function () {
         if (!window.activeProfile) {
           document.querySelector("#header").innerHTML = "";
@@ -81,8 +88,13 @@
         }
         let categories = await DataMovie.requestCategories();
         V.renderNavBar(categories);
+
         let films = await DataMovie.requestMovies(window.activeProfile.min_age);
-        document.querySelector("#content").innerHTML = Movie.format(films);
+
+        // Carrousel dans un div séparé, films dans un autre
+        document.querySelector("#content").innerHTML =
+          `<div class="carousel-wrapper">${V.renderCarousel(categories)}</div>
+     <div class="films-wrapper">${Movie.format(films)}</div>`;
       };
 
       C.handlerCategory = async function (categoryName) {
@@ -90,6 +102,7 @@
         C.closeMenu();
         setTimeout(() => C.setActiveNav("categories"), 0);
 
+        let categories = await DataMovie.requestCategories();
         let allMovies = await DataMovie.requestMovies(
           window.activeProfile.min_age,
         );
@@ -99,10 +112,12 @@
 
         if (filteredMovies.length === 0) {
           document.querySelector("#content").innerHTML =
-            `<h2 style="color:white; padding: 2rem;">Aucun film disponible pour : ${categoryName}</h2>`;
+            `<div class="carousel-wrapper">${V.renderCarousel(categories)}</div>
+       <div class="films-wrapper"><p style="color:white; padding:2rem;">Aucun film disponible pour : ${categoryName}</p></div>`;
         } else {
           document.querySelector("#content").innerHTML =
-            Movie.format(filteredMovies);
+            `<div class="carousel-wrapper">${V.renderCarousel(categories)}</div>
+       <div class="films-wrapper">${Movie.format(filteredMovies)}</div>`;
         }
       };
 
@@ -139,12 +154,26 @@
           document.querySelector("#content").innerHTML =
             "<p style='color:white; padding:2rem;'>Votre liste de favoris est vide.</p>";
         } else {
-          document.querySelector("#content").innerHTML = Movie.format(
-            films,
-            true,
-          );
+          // CORRECTION ICI : On a ajouté le <div class="films-wrapper"> pour la grille !
+          document.querySelector("#content").innerHTML =
+            `<div class="films-wrapper">${Movie.format(films, true)}</div>`;
         }
         setTimeout(() => C.setActiveNav("favoris"), 0);
+      };
+
+      // NOUVELLE FONCTION : Affiche la vidéo Youtube dans la page
+      C.showTrailer = function (url) {
+        const container = document.getElementById("trailer-container");
+        const iframe = document.getElementById("trailer-iframe");
+
+        // On convertit le lien Youtube classique en lien "Intégration" (embed)
+        let embedUrl = url;
+        if (url.includes("watch?v=")) {
+          embedUrl = url.replace("watch?v=", "embed/");
+        }
+
+        iframe.src = embedUrl;
+        container.style.display = "block"; // On affiche le lecteur caché
       };
 
       C.handlerAddFavoris = async function (id_movie) {
@@ -171,6 +200,29 @@
         if (item === "categories")
           items[1]?.classList.add("navbar__item--active");
         if (item === "favoris") items[2]?.classList.add("navbar__item--active");
+      };
+      // Ouvre le Pop-up et lance la vidéo
+      C.showTrailer = function (url) {
+        const popup = document.getElementById("video-popup");
+        const iframe = document.getElementById("video-iframe");
+
+        // Conversion du lien Youtube pour l'intégration
+        let embedUrl = url;
+        if (url.includes("watch?v=")) {
+          embedUrl = url.replace("watch?v=", "embed/") + "?autoplay=1";
+        }
+
+        iframe.src = embedUrl;
+        popup.style.display = "flex";
+      };
+
+      // Ferme le Pop-up et ARRÊTE la vidéo
+      C.closeTrailer = function () {
+        const popup = document.getElementById("video-popup");
+        const iframe = document.getElementById("video-iframe");
+
+        popup.style.display = "none";
+        iframe.src = ""; // Très important pour couper le son quand on ferme !
       };
 
       C.start();

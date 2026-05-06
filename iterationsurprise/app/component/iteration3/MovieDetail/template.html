@@ -1,12 +1,45 @@
-<div class="movie__detail">
-  <button onclick="C.handlerHome()">← Retour</button>
-  <img src="{{image}}" alt="{{name}}" />
-  <h1>{{name}}</h1>
-  <p>{{description}}</p>
-  <p>Réalisateur : {{director}}</p>
-  <p>Année : {{year}}</p>
-  <p>Durée : {{length}} min</p>
-  <p>Âge minimum : {{min_age}} ans</p>
-  <div class="favoris-container">{{favoris}}</div>
-  <iframe src="{{trailer}}" allowfullscreen></iframe>
+<div class="movie-detail">
+  <div class="movie-detail__body">
+    <div class="movie-detail__content">
+      <div class="movie-detail__header-actions">
+        <button class="movie-detail__btn-back" onclick="C.handlerHome()">
+          ← Retour
+        </button>
+        <div class="movie-detail__favoris-container">{{favoris}}</div>
+      </div>
+
+      <h1 class="movie-detail__title">{{name}}</h1>
+
+      <div class="movie-detail__meta">
+        <span>{{year}}</span> • <span>{{length}} min</span> •
+        <span>{{min_age}} ans</span>
+      </div>
+
+      <p class="movie-detail__description">{{description}}</p>
+
+      <p class="movie-detail__director">
+        Réalisé par : <strong>{{director}}</strong>
+      </p>
+
+      <button
+        onclick="C.showTrailer('{{trailer}}')"
+        class="movie-detail__btn-video"
+      >
+        <span class="play-icon">▶</span> VOIR LA VIDÉO
+      </button>
+    </div>
+
+    <div class="movie-detail__aside">
+      <img src="{{image}}" alt="{{name}}" class="movie-detail__poster" />
+    </div>
+  </div>
+
+  <div id="video-popup" class="video-popup" onclick="C.closeTrailer()">
+    <div class="video-popup__content" onclick="event.stopPropagation()">
+      <button class="video-popup__close" onclick="C.closeTrailer()">×</button>
+      <div class="video-popup__responsive-container">
+        <iframe id="video-iframe" src="" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
 </div>

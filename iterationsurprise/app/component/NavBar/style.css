@@ -63,9 +63,9 @@
   padding: 0 1.5rem;
   color: var(--m6-text-muted);
   font-family: var(--font-body);
-  font-size: 0.85rem;
+  font-size: 1.075rem;
   font-weight: 700;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   letter-spacing: 0.06em;
   cursor: pointer;
   white-space: nowrap;
@@ -166,7 +166,7 @@
   }
 
   .navbar__item {
-    height: 64px;
+    height: 67px; /* C'est juste cette valeur qu'il fallait ajuster ! */
     padding: 0 1.1rem;
     border-bottom: 3px solid transparent;
     margin-bottom: -3px;
@@ -179,7 +179,6 @@
     margin-bottom: -3px;
   }
 
-  /* ICI le fix — border-bottom complet pas juste color */
   .navbar__item--active {
     color: var(--m6-yellow) !important;
     text-decoration: underline !important;
