@@ -15,7 +15,11 @@ MovieDetail.format = function (film, isFav) {
   html = html.replace("{{director}}", film.director);
   html = html.replace("{{year}}", film.year);
   html = html.replace("{{length}}", film.length);
-  html = html.replace("{{min_age}}", film.min_age);
+  let age =
+    film.min_age === 0 || film.min_age === "0" || film.min_age === null
+      ? "Tout public"
+      : film.min_age + " ans";
+  html = html.replace("{{min_age}}", age);
   html = html.replace("{{trailer}}", film.trailer);
 
   // Boutons Favoris stylisés (btn-add et btn-remove doivent être dans ton CSS global)

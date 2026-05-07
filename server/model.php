@@ -40,7 +40,7 @@ function getAllMovies($age = 0){
         $sql = "SELECT m.id, m.name, m.image, c.name AS category_name 
                 FROM SAE203_Movie m 
                 JOIN SAE203_Categorie c ON m.id_category = c.id
-                WHERE m.min_age <= :age";
+                WHERE m.min_age < :age";
         $stmt = $cnx->prepare($sql);
         $stmt->bindParam(':age', $age, PDO::PARAM_INT);
         $stmt->execute();
